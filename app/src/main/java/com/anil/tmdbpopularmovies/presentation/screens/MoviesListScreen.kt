@@ -94,7 +94,6 @@ fun MoviesListScreenContent(
         modifier = modifier
             .background(Purple200)
             .fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.Start
     )
 
@@ -103,10 +102,14 @@ fun MoviesListScreenContent(
 
         Column(
             modifier = Modifier
-                .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 25.dp,
+                        topEnd = 25.dp
+                    )
+                )
                 .fillMaxHeight()
-                .background(md_theme_light_secondary),
-            Arrangement.SpaceBetween
+                .background(md_theme_dark_onSecondary),
         ) {
             RecommendedMoviesList(movieItems, scaffoldState, snackbarScope)
             RecommendedMoviesList(movieItems, scaffoldState, snackbarScope)
@@ -146,146 +149,155 @@ fun RecommendedMoviesList(
     scaffoldState: ScaffoldState,
     snackbarScope: CoroutineScope
 ) {
-    Column(modifier = Modifier.height(320.dp),
-        verticalArrangement = Arrangement.SpaceAround) {
+    Column(
+        modifier = Modifier.height(320.dp),
+        verticalArrangement = Arrangement.SpaceAround
+    ) {
         HeadingText(text1 = "Recommended", text2 = "See all")
         LazyRow(content = {
-            items(movieItems){movie->
-                MovieItem(
+            items(movieItems) { movie ->
+                MovieCard(
+                    posterPath = movie!!.posterPath!!,
+                    movieTitle = movie!!.title,
+                    rating = movie.voteAverage,
+                    movieId = movie.id,
+                    onPosterClick = {}
+                )
+                /*MovieItem(
                     scaffoldState = scaffoldState,
                     scope = snackbarScope,
                     movie = movie!!
-                )
+                )*/
             }
-            }, contentPadding = PaddingValues(5.dp))
-        }
-
+        }, contentPadding = PaddingValues(5.dp))
     }
-    /*@Composable
-    fun MovieListItem(modifier: Modifier) {
-        Column(
-            modifier = modifier
-                .background(md_theme_dark_surface)
-                .fillMaxSize()
-        ) {
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = "POPULAR",
-                    style = MaterialTheme.typography.button,
-                    fontSize = 10.sp,
-                    color = Purple200,
-                    modifier = Modifier.padding(5.dp),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "SEE ALL",
-                    style = MaterialTheme.typography.button,
-                    fontSize = 10.sp,
-                    color = Purple200,
-                    modifier = Modifier.padding(5.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
 
-
-        }
-    }*/
-
-    @Composable
-    fun HeadingText(text1: String, text2: String) {
+}
+/*@Composable
+fun MovieListItem(modifier: Modifier) {
+    Column(
+        modifier = modifier
+            .background(md_theme_dark_surface)
+            .fillMaxSize()
+    ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = text1.uppercase(),
-                color = Color.LightGray,
+                text = "POPULAR",
                 style = MaterialTheme.typography.button,
-                fontSize = 12.sp,
-                fontWeight = Bold,
-                textAlign = TextAlign.Start
+                fontSize = 10.sp,
+                color = Purple200,
+                modifier = Modifier.padding(5.dp),
+                textAlign = TextAlign.Center
             )
             Text(
-                text = text2,
-                color = Color.LightGray,
-                fontSize = 12.sp,
+                text = "SEE ALL",
                 style = MaterialTheme.typography.button,
-                textAlign = TextAlign.End
+                fontSize = 10.sp,
+                color = Purple200,
+                modifier = Modifier.padding(5.dp),
+                textAlign = TextAlign.Center
             )
-
-        }
-    }
-
-    @Preview(
-        showSystemUi = true,
-        showBackground = true
-    )
-    @Composable
-    fun ListScreenPreview() {
-
-        Surface(modifier = Modifier.fillMaxHeight()) {
-            MovieScreenTopPart()
-
-            Column(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
-                    .background(md_theme_light_secondary)
-            ) {
-                Spacer(modifier = Modifier.height(22.dp))
-                HeadingText(text1 = "Recommended", text2 = "See all")
-            }
         }
 
 
     }
+}*/
 
-    @Composable
-    fun MovieItem(scaffoldState: ScaffoldState, scope: CoroutineScope, movie: Movie) {
-        Card(
+@Composable
+fun HeadingText(text1: String, text2: String) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    ) {
+        Text(
+            text = text1.uppercase(),
+            color = Color.LightGray,
+            style = MaterialTheme.typography.button,
+            fontSize = 12.sp,
+            fontWeight = Bold,
+            textAlign = TextAlign.Start
+        )
+        Text(
+            text = text2,
+            color = Color.LightGray,
+            fontSize = 12.sp,
+            style = MaterialTheme.typography.button,
+            textAlign = TextAlign.End
+        )
+
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    showBackground = true
+)
+@Composable
+fun ListScreenPreview() {
+
+    Surface(modifier = Modifier.fillMaxHeight()) {
+        MovieScreenTopPart()
+
+        Column(
             modifier = Modifier
-                .height(220.dp)
-                .width(155.dp),
-            elevation = 10.dp,
-            backgroundColor = md_theme_light_background
+                .clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp))
+                .background(md_theme_light_secondary)
         ) {
+            Spacer(modifier = Modifier.height(22.dp))
+            HeadingText(text1 = "Recommended", text2 = "See all")
+        }
+    }
+
+
+}
+
+@Composable
+fun MovieItem(scaffoldState: ScaffoldState, scope: CoroutineScope, movie: Movie) {
+    Card(
+        modifier = Modifier
+            .height(220.dp)
+            .width(155.dp),
+        elevation = 10.dp,
+        backgroundColor = md_theme_light_background
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            PosterImage(
+                poster = movie.posterPath,
+                title = movie.title,
+                movieId = movie.id,
+                scrollId = 1,
+                onPosterClick = { movieId, scroll -> })
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                Modifier
+                    .background(Color.Gray)
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, bottom = 4.dp),
+                verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                PosterImage(
-                    poster = movie.posterPath,
-                    title = movie.title,
-                    movieId = movie.id,
-                    scrollId = 1,
-                    onPosterClick = { movieId, scroll -> })
-                Column(
+                Text(
+                    movie.title!!,
                     Modifier
-                        .background(Color.Gray)
-                        .fillMaxWidth()
-                        .padding(top = 4.dp, bottom = 4.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        movie.title!!,
-                        Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .padding(bottom = 8.dp, start = 16.dp, end = 16.dp),
-                        style = MaterialTheme.typography.body1,
-                        color = Color.Black, maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = 8.dp, start = 16.dp, end = 16.dp),
+                    style = MaterialTheme.typography.body1,
+                    color = Color.Black, maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
             }
-
         }
 
     }
+
+}

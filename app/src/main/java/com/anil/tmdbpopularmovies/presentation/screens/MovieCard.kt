@@ -1,5 +1,6 @@
 package com.anil.tmdbpopularmovies.presentation.screens
 
+import android.util.Log.d
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import coil.size.Scale
+import com.anil.tmdbpopularmovies.R
 import com.anil.tmdbpopularmovies.presentation.composebles.RatingBar
 import com.anil.tmdbpopularmovies.ui.theme.md_theme_dark_onSecondary
 
@@ -29,12 +32,14 @@ fun MovieCard(
     onPosterClick: (Int) -> Unit
 ) {
 
-    Column(modifier = Modifier.background(md_theme_dark_onSecondary)) {
+    Column(modifier = Modifier.
+                    background(md_theme_dark_onSecondary).
+                    height(320.dp).
+                    width(180.dp)) {
         Card(
             shape = RoundedCornerShape(30.dp),
             backgroundColor = Color.White,
             modifier = Modifier
-                .width(240.dp)
                 .padding(5.dp)
         ) {
 
@@ -43,10 +48,13 @@ fun MovieCard(
                 builder = {
                     crossfade(true)
                     scale(Scale.FILL)
+                    fallback(R.drawable.poster_loading)
+                    error(R.drawable.poster_error)
+
                 })
             Box(
                 modifier = Modifier
-                    .height(278.dp),
+                    .height(180.dp),
             ) {
                 Image(
                     painter = posterPainter,
@@ -65,13 +73,15 @@ fun MovieCard(
             text = movieTitle,
             modifier = Modifier.padding(start = 8.dp),
             color = Color.White,
-            style = MaterialTheme.typography.subtitle1
+            style = MaterialTheme.typography.body2,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
         )
         Spacer(modifier = Modifier.height(6.dp))
         Box(modifier = Modifier.padding(start = 6.dp)) {
-            RatingBar(rating = 3.5)
+            RatingBar(modifier = Modifier.height(20.dp), rating = 3.5)
         }
-        Spacer(modifier = Modifier.height(6.dp))
+
     }
 }
 
