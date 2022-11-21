@@ -8,10 +8,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.anil.tmdbpopularmovies.presentation.composebles.MoviesListScreen
+import com.anil.tmdbpopularmovies.presentation.screens.MoviesListScreen
 import com.anil.tmdbpopularmovies.ui.theme.TMDBPopularMoviesTheme
-import com.anil.tmdbpopularmovies.ui.theme.md_theme_dark_primary
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = md_theme_dark_primary
+                    color = Color.LightGray
                 ) {
                    MoviesListScreen()
                 }

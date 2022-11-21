@@ -28,6 +28,7 @@ import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import com.anil.tmdbpopularmovies.R
+import com.anil.tmdbpopularmovies.ui.theme.graySurface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -94,8 +95,6 @@ fun PosterImage(
             scale(Scale.FILL)
         })
     Box(
-        modifier = Modifier
-            .height(278.dp),
     ) {
         Image(
             painter = posterPainter,
@@ -165,6 +164,7 @@ fun TMDTopAppBar(scaffoldState: ScaffoldState, snackBarScope: CoroutineScope) {
 
     TopAppBar(
         title = { Text(text = stringResource(id = R.string.app_name)) },
+        backgroundColor = graySurface,
         navigationIcon = {
             IconButton(onClick = { /*TODO*/ }) {
                 Icon(

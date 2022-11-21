@@ -28,3 +28,6 @@ val md_theme_dark_background = Color(0xFF1d1b1f)
 val md_theme_dark_onBackground = Color(0xFFe6e1e5)
 val md_theme_dark_surface = Color(0xFF1d1b1f)
 val md_theme_dark_onSurface = Color(0xFFe6e1e5)
+
+val graySurface = Color(0xFF202124)
+val lightGray=Color(0xFFEBECF0)

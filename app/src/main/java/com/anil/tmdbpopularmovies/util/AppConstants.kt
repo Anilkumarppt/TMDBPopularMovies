@@ -1,6 +1,7 @@
 package com.anil.tmdbpopularmovies.util
 
 object AppConstants {
+
     const val BASE_URL = "https://api.themoviedb.org/3/"
 
     const val GET_POPULAR = "movie/popular"
