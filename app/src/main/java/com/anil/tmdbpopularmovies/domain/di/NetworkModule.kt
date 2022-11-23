@@ -11,6 +11,7 @@ import com.anil.tmdbpopularmovies.data.remote.MovieRemoteDataSourceImpl
 import com.anil.tmdbpopularmovies.data.repository.MoviesRepositoryImpl
 import com.anil.tmdbpopularmovies.domain.repository.MoviesRepository
 import com.anil.tmdbpopularmovies.domain.usecases.GetMoviesUseCase
+import com.anil.tmdbpopularmovies.domain.usecases.MovieDetailUseCase
 import com.anil.tmdbpopularmovies.util.AppConstants.BASE_URL
 import com.anil.tmdbpopularmovies.util.AppConstants.CONNECT_TIMEOUT
 import com.anil.tmdbpopularmovies.util.AppConstants.READ_TIMEOUT
@@ -92,4 +93,7 @@ object NetworkModule {
     @Singleton
     fun provideGetMoviesUseCase(moviesRepository: MoviesRepository):GetMoviesUseCase=GetMoviesUseCase(moviesRepository = moviesRepository)
 
+    @Provides
+    @Singleton
+    fun provideGetMoviesDetailUseCase(moviesRepository: MoviesRepository):MovieDetailUseCase=MovieDetailUseCase(moviesRepository = moviesRepository)
 }

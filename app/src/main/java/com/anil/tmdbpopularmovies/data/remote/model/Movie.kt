@@ -27,8 +27,10 @@ data class Movie(
     @SerializedName("vote_count")
     val voteCount: Int,
 
+    var backdrop:String,
+
     var page: Int){
     override fun toString(): String {
-        return " $title and $page"
+        return " $title and $page,  $backdrop"
     }
 }

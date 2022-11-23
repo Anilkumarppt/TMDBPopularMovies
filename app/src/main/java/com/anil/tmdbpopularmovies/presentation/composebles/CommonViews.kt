@@ -8,15 +8,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.MovieCreation
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,13 +33,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoadingIndicator() {
-    Box( contentAlignment = Alignment.Center) {
+    Box(contentAlignment = Alignment.Center) {
         CircularProgressIndicator()
     }
 }
+
 @Composable
 @Preview
-fun DisplayPreview(){
+fun DisplayPreview() {
     ErrorItem(message = "Some Error Occured")
 }
 
@@ -79,6 +79,34 @@ fun ErrorItem(message: String) {
         }
     }
 }
+
+@Composable
+fun FavoriteIcon(
+    modifier: Modifier = Modifier,
+    color: Color=Color(0xffE91E63)
+) {
+    var isFavorite by remember {
+        mutableStateOf(false)
+    }
+
+    IconToggleButton(checked = isFavorite, onCheckedChange = {
+        isFavorite = !isFavorite
+    })
+    {
+        Icon(
+            modifier = modifier.graphicsLayer {
+                scaleX = 1.3f
+                scaleY = 1.3f
+            },
+            imageVector = if (isFavorite) {
+                Icons.Filled.Favorite
+            } else {
+                Icons.Default.FavoriteBorder
+            }, contentDescription = null, tint = color
+        )
+    }
+}
+
 @ExperimentalCoilApi
 @Composable
 fun PosterImage(
@@ -86,8 +114,8 @@ fun PosterImage(
     title: String?,
     movieId: Int,
     scrollId: Int,
-    onPosterClick: (Int, Int) -> Unit)
-{
+    onPosterClick: (Int, Int) -> Unit
+) {
     val posterPainter = rememberImagePainter(
         data = poster,
         builder = {
@@ -173,7 +201,8 @@ fun TMDTopAppBar(scaffoldState: ScaffoldState, snackBarScope: CoroutineScope) {
                 )
 
             }
-        }, actions = {
+        },
+        actions = {
             IconButton(onClick = {
                 snackBarScope.launch {
                     scaffoldState.snackbarHostState.showSnackbar("TODO implement search")

@@ -35,14 +35,14 @@ fun MovieCard(
     Column(modifier = Modifier.
                     background(md_theme_dark_onSecondary).
                     height(320.dp).
-                    width(180.dp)) {
+                    width(160.dp)) {
         Card(
-            shape = RoundedCornerShape(30.dp),
+            shape = RoundedCornerShape(25.dp),
             backgroundColor = Color.White,
+            elevation = 4.dp,
             modifier = Modifier
-                .padding(5.dp)
-        ) {
-
+                .padding(5.dp))
+        {
             val posterPainter = rememberImagePainter(
                 data = posterPath,
                 builder = {
@@ -54,7 +54,7 @@ fun MovieCard(
                 })
             Box(
                 modifier = Modifier
-                    .height(180.dp),
+                    .height(180.dp).width(120.dp),
             ) {
                 Image(
                     painter = posterPainter,
@@ -71,16 +71,20 @@ fun MovieCard(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = movieTitle,
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier.padding(start = 10.dp),
             color = Color.White,
             style = MaterialTheme.typography.body2,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
         )
         Spacer(modifier = Modifier.height(6.dp))
-        Box(modifier = Modifier.padding(start = 6.dp)) {
-            RatingBar(modifier = Modifier.height(20.dp), rating = 3.5)
-        }
+        RatingBar(modifier = Modifier.height(20.dp).padding(start = 6.dp), rating =rating/2 )
+
+
+
+        /*Box(modifier = Modifier.padding(start = 8.dp)) {
+            RatingBar(modifier = Modifier.height(20.dp), rating =rating/2 )
+        }*/
 
     }
 }

@@ -1,4 +1,4 @@
-package com.anil.tmdbpopularmovies.presentation
+package com.anil.tmdbpopularmovies.presentation.screens.movielist
 
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.lifecycle.ViewModel

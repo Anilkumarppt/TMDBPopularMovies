@@ -1,5 +1,6 @@
 package com.anil.tmdbpopularmovies.data.local
 
+import android.util.Log
 import androidx.paging.*
 import com.anil.tmdbclientapp.data.model.movie.MovieList
 import com.anil.tmdbpopularmovies.data.MovieDataSource
@@ -21,7 +22,9 @@ class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDa
     }
 
     override suspend fun getMovieById(movieId: Int): Flow<Movie?> {
-        TODO("Not yet implemented")
+        val fullMovieData = movieDao.getFullMovieData(movieId = movieId)
+        Log.d("Local DataBase", "getMovieById: ${fullMovieData.toString()}")
+        return fullMovieData
     }
 
     override suspend fun refreshMovies(popularMovies: List<Movie>) {

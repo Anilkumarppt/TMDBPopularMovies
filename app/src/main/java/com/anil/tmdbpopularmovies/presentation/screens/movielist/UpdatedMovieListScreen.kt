@@ -5,9 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -15,27 +13,18 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight.Companion.Bold
-import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.anil.tmdbpopularmovies.R
-import com.anil.tmdbpopularmovies.presentation.MovieListViewModel
+import com.anil.tmdbpopularmovies.presentation.screens.movielist.MovieListViewModel
 import com.anil.tmdbpopularmovies.ui.theme.Purple200
 import com.anil.tmdbpopularmovies.ui.theme.lightGray
-import com.anil.tmdbpopularmovies.ui.theme.md_theme_light_background
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -56,16 +45,17 @@ fun MovieScreenTopPart() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
             .background(
-                Purple200
-            )
-            .fillMaxWidth()
+                Purple200)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center
+
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Box(modifier = Modifier.width(250.dp)) {
             Text(
                 text = "Hello, what do you want to watch?",
                 modifier = Modifier.padding(5.dp),
-                style = MaterialTheme.typography.h5,
+                style = MaterialTheme.typography.h6,
                 textAlign = TextAlign.Start,
                 lineHeight = 35.sp,
                 maxLines = 2,

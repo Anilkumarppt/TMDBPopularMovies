@@ -38,8 +38,8 @@ class MoviesRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getMovieById(movieId: Int): Flow<Movie>? {
-        TODO("Not yet implemented")
+    override suspend fun getMovieById(movieId: Int): Flow<Movie?> {
+       return movieLocalDataSource.getMovieById(movieId = movieId)
     }
 
     @OptIn(ExperimentalPagingApi::class)

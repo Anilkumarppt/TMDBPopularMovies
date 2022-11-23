@@ -64,16 +64,11 @@ class MovieRemoteMediator @Inject constructor(
                     nextKey
                 }
             }
-            Log.d(TAG, "sample3: pageRequestNum $pageRequestNum")
-            val response = movieRemoteDataSource.getPagedPopularMovies(pageRequestNum!!)
+
+            val response = movieRemoteDataSource.getPagedPopularMovies(pageRequestNum)
             currentPage = response.body()!!.page
             val moviesList: List<Movie> = convertMovieList(response.body()!!)
-            Log.d(TAG, "sample3: Response string ${response.toString()}")
-
             val endOfPagination = moviesList.isEmpty()
-
-            Log.d("MyTag ", "sample3: endOfPagination is $endOfPagination")
-
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     remoteKeyDao.deleteAllKeys()
@@ -90,6 +85,7 @@ class MovieRemoteMediator @Inject constructor(
                 remoteKeyDao.insertAll(keys)
                 moviesList.map { movie ->
                     movie.posterPath = "https://image.tmdb.org/t/p/w500" + movie.posterPath
+                    movie.backdrop = "https://image.tmdb.org/t/p/w500" + movie.backdrop
                 }
                 movieDao.savePopularMovies(moviesList)
             }

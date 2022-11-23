@@ -31,3 +31,4 @@ val md_theme_dark_onSurface = Color(0xFFe6e1e5)
 
 val graySurface = Color(0xFF202124)
 val lightGray=Color(0xFFEBECF0)
+val TextGrayColor= Color(0xFFF3F3E7)

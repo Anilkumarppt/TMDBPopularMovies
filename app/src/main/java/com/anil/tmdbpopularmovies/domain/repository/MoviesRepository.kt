@@ -12,7 +12,7 @@ interface MoviesRepository {
 
     suspend fun insertPagedMovies(movies: List<Movie>)
 
-    suspend fun getMovieById(movieId:Int):Flow<Movie>?
+    suspend fun getMovieById(movieId:Int):Flow<Movie?>
 
     suspend fun getMostPopularMovies(): Flow<PagingData<Movie>>
 

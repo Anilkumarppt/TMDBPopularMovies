@@ -1,5 +1,6 @@
 package com.anil.tmdbpopularmovies.presentation.composebles
 
+import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
@@ -26,11 +27,14 @@ fun RatingBar(
     val unfilledStars = (stars - ceil(rating)).toInt()
     val halfStar = !(rating.rem(1).equals(0.0))
 
+    Log.d("RatingBar", "Rating $rating")
+    Log.d("RatingBar", "filledStars $filledStars")
+
+
     Row(modifier = modifier) {
         repeat(filledStars) {
             Icon(imageVector = Icons.Outlined.Star, contentDescription = null, tint = starsColor)
         }
-
         if (halfStar) {
             Icon(
                 imageVector = Icons.Outlined.StarHalf,
@@ -38,7 +42,6 @@ fun RatingBar(
                 tint = starsColor
             )
         }
-
         repeat(unfilledStars) {
             Icon(
                 imageVector = Icons.Outlined.StarOutline,

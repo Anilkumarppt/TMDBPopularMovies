@@ -2,10 +2,8 @@ package com.anil.tmdbpopularmovies.data.local
 
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
+import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
-import androidx.room.Query
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
 import kotlinx.coroutines.flow.Flow
 
@@ -26,4 +24,13 @@ interface MovieDao {
 
     @Query("SELECT COUNT(id) FROM  popular_movie")
     suspend fun countMovies(): Int
+
+    @Transaction
+    @Query("SELECT * FROM popular_movie WHERE id= :movieId")
+    fun getFullMovieData(movieId:Int): Flow<Movie?>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMovie(movie: Movie)
+
+
 }

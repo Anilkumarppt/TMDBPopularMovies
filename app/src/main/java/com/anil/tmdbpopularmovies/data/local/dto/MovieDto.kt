@@ -24,6 +24,8 @@ data class MovieDto(
         video = false,
         page = page,
         voteAverage = voteAverage,
-        voteCount = voteCount
+        voteCount = voteCount,
+        backdrop = backdrop
+
     )
 }
