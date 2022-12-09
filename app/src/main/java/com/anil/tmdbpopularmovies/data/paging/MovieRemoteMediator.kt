@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.paging.*
 import androidx.room.withTransaction
 import com.anil.tmdbclientapp.data.model.movie.MovieList
-import com.anil.tmdbpopularmovies.data.local.MovieDao
+import com.anil.tmdbpopularmovies.data.local.dao.MovieDao
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
 import com.anil.tmdbpopularmovies.data.local.database.MoviesDatabase
 import com.anil.tmdbpopularmovies.data.local.database.RemoteKey

@@ -1,4 +1,4 @@
-package com.anil.tmdbpopularmovies.data.local
+package com.anil.tmdbpopularmovies.data.local.dao
 
 import androidx.paging.PagingData
 import androidx.paging.PagingSource

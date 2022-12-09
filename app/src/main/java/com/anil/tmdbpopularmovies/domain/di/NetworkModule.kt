@@ -1,6 +1,6 @@
 package com.anil.tmdbpopularmovies.domain.di
 
-import com.anil.tmdbpopularmovies.data.local.MovieDao
+import com.anil.tmdbpopularmovies.data.local.dao.MovieDao
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSourceImpl
 import com.anil.tmdbpopularmovies.data.local.database.MoviesDatabase
@@ -72,7 +72,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideMovieLocalDataSource(movieDao:MovieDao):MovieLocalDataSource=MovieLocalDataSourceImpl(movieDao)
+    fun provideMovieLocalDataSource(movieDao: MovieDao):MovieLocalDataSource=MovieLocalDataSourceImpl(movieDao)
    /* @Provides
     @Singleton
     fun provideLocalDataSource(movieDao:MovieDao):MovieLocalDataSource=MovieLocalDataSourceImpl(movieDao = movieDao)*/

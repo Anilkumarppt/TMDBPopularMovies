@@ -151,7 +151,7 @@ fun MovieOverview(overView:String){
         fontWeight = FontWeight.Normal,
         fontSize = 13.sp,
         letterSpacing = 0.25.sp,
-        color = TextGrayColor)
+        color = lightGray.copy(alpha = .4F))
 }
 @Composable
 fun BackDropPoster(backdrop: String, title: String) {
@@ -199,7 +199,7 @@ fun BackDropPoster(backdrop: String, title: String) {
         showSystemUi = true)
 @Composable
 fun PreviewDetailsScreen() {
-    Surface(color = md_theme_dark_background) {
+    Surface(color = md_theme_dark_onSecondary) {
         DetailTitleRow(title = "All Quiet on the Western Front and last of the world  ", releaseDate = "22-02-2022", rating =3.5, overView = "" )
     }
 }

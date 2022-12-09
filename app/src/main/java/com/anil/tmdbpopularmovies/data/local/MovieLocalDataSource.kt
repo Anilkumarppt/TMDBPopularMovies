@@ -3,6 +3,7 @@ package com.anil.tmdbpopularmovies.data.local
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import com.anil.tmdbclientapp.data.model.movie.MovieList
+import com.anil.tmdbpopularmovies.data.local.dto.CastDto
 import com.anil.tmdbpopularmovies.data.paging.MovieRemoteMediator
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
 import kotlinx.coroutines.flow.Flow
@@ -19,4 +20,7 @@ interface MovieLocalDataSource {
     suspend fun getLocalPagedMovies(): List<Movie>
 
     suspend fun countMovies(): Int
+
+    suspend fun getMovieCasts():Flow<List<CastDto>>
+    suspend fun insertCasts(castList:List<CastDto>)
 }
