@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.anil.tmdb_movie_api_data.data.ToastMessage
 import com.anil.tmdbpopularmovies.presentation.screens.MovieApp
 import com.anil.tmdbpopularmovies.presentation.screens.movielist.MoviesListScreen
 import com.anil.tmdbpopularmovies.ui.theme.TMDBPopularMoviesTheme
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterialApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ToastMessage.toastCustom(context = applicationContext,"sample library module")
         setContent {
             TMDBPopularMoviesTheme {
                 // A surface container using the 'background' color from the theme

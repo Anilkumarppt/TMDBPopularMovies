@@ -45,9 +45,6 @@ class MoviesRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getMostPopularMovies(): Flow<PagingData<Movie>> {
         return movieLocalDataSource.getPagedMovies(moviesRemoteMediator = moviesRemoteMediator)
-
-
-        TODO("Not yet implemented")
     }
 
 }
