@@ -12,8 +12,11 @@ object AppConstants {
 
     const val CREDITS="movie/{movie_id}/credits"
 
+    const val LATEST_MOVIES="movie/latest"
+
     const val API_KEY="25e34d6e0c1879dffdee9ef13dc4186d"   //  f60ae473c8d03fdd88e75848cea96a8e
 
+    const val TOP_RATED="movie/top_rated"
 
     // related to paging
     const val STARTING_PAGE_INDEX = 1

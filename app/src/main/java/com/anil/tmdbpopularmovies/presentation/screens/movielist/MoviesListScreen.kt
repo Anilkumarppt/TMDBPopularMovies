@@ -28,6 +28,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.anil.tmdbpopularmovies.data.local.dto.TopRatedMovieDto
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
 import com.anil.tmdbpopularmovies.presentation.composebles.ErrorItem
 import com.anil.tmdbpopularmovies.presentation.composebles.LoadingIndicator
@@ -99,6 +100,7 @@ fun MoviesListScreenContent(
     navController: NavController,
 ) {
     val movieItems = moviesViewModel.movieList.collectAsLazyPagingItems()
+    val topRatedMovies=moviesViewModel.topRatedMoviesList.collectAsLazyPagingItems()
     //val savedListState = rememberLazyListState(scrollingListPosition)
     Column(
         modifier = modifier
@@ -137,8 +139,8 @@ fun MoviesListScreenContent(
                     })
             }
             Column(modifier = Modifier.weight(1F)) {
-                RecommendedMoviesList(
-                    movieItems,
+                TopRatedMoviesList(
+                    topRatedMovies,
                     scaffoldState,
                     snackbarScope,
                     2,
@@ -159,6 +161,52 @@ fun MoviesListScreenContent(
 @Composable
 fun RecommendedMoviesList(
     movieItems: LazyPagingItems<Movie>,
+    scaffoldState: ScaffoldState,
+    snackbarScope: CoroutineScope,
+    clickEvent: Int,
+    onPosterClick: (Int) -> Unit
+
+) {
+    Column(
+        modifier = Modifier.height(300.dp),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        val context = LocalContext.current
+        Column(modifier = Modifier.fillMaxWidth()) {
+            HeadingText(text1 = "Recommended for you", text2 = "See all", click = { click ->
+                if (click == 1) {
+                    Toast.makeText(context, "Click Event of Recommended Movies", Toast.LENGTH_LONG)
+                        .show()
+                } else {
+                    Toast.makeText(context, "Click Event of Popular Movies", Toast.LENGTH_LONG)
+                        .show()
+
+                }
+            }, clickEvent = clickEvent)
+        }
+        Column(modifier = Modifier.fillMaxWidth()) {
+            LazyRow(content = {
+                items(movieItems) { movie ->
+                    MovieCard(
+                        posterPath = movie!!.posterPath!!,
+                        movieTitle = movie!!.title,
+                        rating = movie.voteAverage,
+                        movieId = movie.id,
+                        onPosterClick = {
+                            onPosterClick(it)
+                        }
+                    )
+                }
+            }, contentPadding = PaddingValues(5.dp))
+        }
+
+    }
+
+}
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun TopRatedMoviesList(
+    movieItems: LazyPagingItems<TopRatedMovieDto>,
     scaffoldState: ScaffoldState,
     snackbarScope: CoroutineScope,
     clickEvent: Int,

@@ -16,4 +16,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TMDBPopularMovies"
 include ':app'
-include ':tmdb-movie-api-data'
+//include ':tmdb-movie-api-data'

@@ -3,13 +3,17 @@ package com.anil.tmdbpopularmovies.data.local
 import android.util.Log
 import androidx.paging.*
 import com.anil.tmdbpopularmovies.data.local.dao.MovieDao
+import com.anil.tmdbpopularmovies.data.local.dao.TopRatedMovieDao
 import com.anil.tmdbpopularmovies.data.local.dto.CastDto
+import com.anil.tmdbpopularmovies.data.local.dto.TopRatedMovieDto
 import com.anil.tmdbpopularmovies.data.paging.MovieRemoteMediator
+import com.anil.tmdbpopularmovies.data.paging.TopRatedMovieRemoteMeditor
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
+import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMovie
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 private const val PAGE_SIZE = 20
-class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDao) :
+class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDao,private val topRatedMovieDao: TopRatedMovieDao) :
     MovieLocalDataSource {
 
     override suspend fun addFreshPopularMovies(movies: List<Movie>) {
@@ -32,14 +36,26 @@ class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDa
     @ExperimentalPagingApi
     override suspend fun getPagedMovies(moviesRemoteMediator: MovieRemoteMediator): Flow<PagingData<Movie>> {
         return Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
+            remoteMediator = moviesRemoteMediator,
+            pagingSourceFactory = movieDao::getMoviesPagingSource,
+        ).flow
+
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun getTopRatedMovies(moviesRemoteMediator: TopRatedMovieRemoteMeditor): Flow<PagingData<TopRatedMovieDto>> {
+        return Pager(
             config = PagingConfig(pageSize = PAGE_SIZE,
                 enablePlaceholders = false),
             remoteMediator = moviesRemoteMediator,
             pagingSourceFactory = {
-                movieDao.getMoviesPagingSource()
+                topRatedMovieDao.getTopRatedMoviesPagingSource()
             }
         ).flow
-
     }
 
     override suspend fun getLocalPagedMovies(): List<Movie> {
@@ -55,6 +71,10 @@ class MovieLocalDataSourceImpl @Inject constructor(private val movieDao: MovieDa
     }
 
     override suspend fun insertCasts(castList: List<CastDto>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun insertTopRatedMovies(movies: List<TopRatedMovieDto>) {
         TODO("Not yet implemented")
     }
 

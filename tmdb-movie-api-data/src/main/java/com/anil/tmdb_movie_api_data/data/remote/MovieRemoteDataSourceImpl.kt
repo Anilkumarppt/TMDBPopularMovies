@@ -24,7 +24,7 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val moviesAPIService
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPagedPopularMovies(page: Int): Response<MovieList> {
+    override suspend fun getPagedPopularMovies(page: Int): Response<Any> {
 
         /* val response = moviesAPIService.getPagingPopularMovies(page).body()!!
         val currentPage = response.page

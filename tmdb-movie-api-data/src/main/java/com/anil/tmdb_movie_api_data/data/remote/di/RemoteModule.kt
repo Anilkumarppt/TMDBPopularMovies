@@ -60,6 +60,4 @@ object RemoteModule {
     @Singleton
     fun provideMovieRemoteDataSource(moviesAPIService: MoviesAPIService): MovieRemoteDataSource =
         MovieRemoteDataSourceImpl(moviesAPIService = moviesAPIService)
-
-
 }

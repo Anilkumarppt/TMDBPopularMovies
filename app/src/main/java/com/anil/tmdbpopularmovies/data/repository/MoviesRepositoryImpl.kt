@@ -5,10 +5,13 @@ import androidx.paging.PagingData
 import com.anil.tmdbclientapp.data.model.movie.MovieList
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
 import com.anil.tmdbpopularmovies.data.local.database.MoviesDatabase
+import com.anil.tmdbpopularmovies.data.local.dto.TopRatedMovieDto
 import com.anil.tmdbpopularmovies.data.paging.MovieRemoteMediator
+import com.anil.tmdbpopularmovies.data.paging.TopRatedMovieRemoteMeditor
 import com.anil.tmdbpopularmovies.data.remote.MovieRemoteDataSource
 import com.anil.tmdbpopularmovies.data.remote.apiservice.MoviesAPIService
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
+import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMovie
 import com.anil.tmdbpopularmovies.domain.repository.MoviesRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -27,6 +30,10 @@ class MoviesRepositoryImpl @Inject constructor(
         movieRemoteDataSource = movieRemoteDataSource,
         db = db
     )
+    private val topRatedMovieRemoteMeditor=TopRatedMovieRemoteMeditor(
+        movieRemoteDataSource = movieRemoteDataSource,
+        db=db)
+
 
     override suspend fun getPagedMovies(page: Int): Response<MovieList> {
         //delay(3000)
@@ -45,6 +52,20 @@ class MoviesRepositoryImpl @Inject constructor(
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getMostPopularMovies(): Flow<PagingData<Movie>> {
         return movieLocalDataSource.getPagedMovies(moviesRemoteMediator = moviesRemoteMediator)
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    override suspend fun getTopRatedMovies(): Flow<PagingData<TopRatedMovieDto>> {
+        return movieLocalDataSource.getTopRatedMovies(moviesRemoteMediator = topRatedMovieRemoteMeditor)
+        //TODO("Not yet implemented")
+    }
+
+    override suspend fun insertTopRatedMovies(movies: List<TopRatedMovieDto>) {
+
+    }
+
+    override suspend fun getTopRatedMovieById(movieId: Int): Flow<TopRatedMovieDto> {
+        TODO("Not yet implemented")
     }
 
 }

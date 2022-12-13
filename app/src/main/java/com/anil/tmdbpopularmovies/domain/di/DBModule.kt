@@ -2,8 +2,11 @@ package com.anil.tmdbpopularmovies.domain.di
 
 import android.content.Context
 import androidx.room.Room
+import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
+import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSourceImpl
 import com.anil.tmdbpopularmovies.data.local.dao.CastDao
 import com.anil.tmdbpopularmovies.data.local.dao.MovieDao
+import com.anil.tmdbpopularmovies.data.local.dao.TopRatedMovieDao
 import com.anil.tmdbpopularmovies.data.local.database.MoviesDatabase
 import dagger.Module
 import dagger.Provides
@@ -16,6 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DBModule {
 
+
     @Provides
     @Singleton
     fun provideMovieDB(@ApplicationContext appContext:Context):MoviesDatabase=Room.databaseBuilder(appContext,MoviesDatabase::class.java,"Movies.db").build()
@@ -24,6 +28,15 @@ object DBModule {
     fun provideMovieListDao(moviesDatabase: MoviesDatabase): MovieDao =moviesDatabase.getMovieDao()
 
     @Provides
+    @Singleton
+    fun provideMovieLocalDataSource(movieDao: MovieDao,topRatedMovieDao: TopRatedMovieDao): MovieLocalDataSource =
+        MovieLocalDataSourceImpl(movieDao, topRatedMovieDao = topRatedMovieDao)
+
+    @Provides
     fun provideMovieCastListDao(moviesDatabase: MoviesDatabase): CastDao =moviesDatabase.getCastsDao()
+
+    @Provides
+    fun provideTopMovieDao(moviesDatabase: MoviesDatabase):TopRatedMovieDao= moviesDatabase.getTopRatedMovieDao()
+
 
 }

@@ -5,13 +5,14 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
+import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMovie
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun savePopularMovies(movies:List<Movie>)
+    suspend fun savePopularMovies(movies: List<Movie>)
 
     @Query("SELECT * FROM popular_movie")
     suspend fun getPopularMoviesFromDB(): List<Movie>
@@ -27,10 +28,9 @@ interface MovieDao {
 
     @Transaction
     @Query("SELECT * FROM popular_movie WHERE id= :movieId")
-    fun getFullMovieData(movieId:Int): Flow<Movie?>
+    fun getFullMovieData(movieId: Int): Flow<Movie?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovie(movie: Movie)
-
 
 }

@@ -2,7 +2,9 @@ package com.anil.tmdbpopularmovies.domain.repository
 
 import androidx.paging.PagingData
 import com.anil.tmdbclientapp.data.model.movie.MovieList
+import com.anil.tmdbpopularmovies.data.local.dto.TopRatedMovieDto
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
+import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMovie
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
@@ -16,5 +18,10 @@ interface MoviesRepository {
 
     suspend fun getMostPopularMovies(): Flow<PagingData<Movie>>
 
+    suspend fun getTopRatedMovies():Flow<PagingData<TopRatedMovieDto>>
+
+    suspend fun insertTopRatedMovies(movies:List<TopRatedMovieDto>)
+
+    suspend fun getTopRatedMovieById(movieId:Int):Flow<TopRatedMovieDto>
 
 }

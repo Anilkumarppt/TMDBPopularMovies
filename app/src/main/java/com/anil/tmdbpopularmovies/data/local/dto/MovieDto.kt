@@ -26,6 +26,5 @@ data class MovieDto(
         voteAverage = voteAverage,
         voteCount = voteCount,
         backdrop = backdrop
-
     )
 }

@@ -7,11 +7,6 @@ import com.anil.tmdbclientapp.data.model.movie.MovieList
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
 import com.anil.tmdbpopularmovies.data.local.dto.MovieDto
 import com.anil.tmdbpopularmovies.data.remote.MovieRemoteDataSource
-import com.anil.tmdbpopularmovies.data.remote.model.Movie
-import com.anil.tmdbpopularmovies.domain.repository.MoviesRepository
-import retrofit2.HttpException
-import retrofit2.Response
-import java.io.IOException
 
 class MoviePagingSource(
     private val remoteDataSource: MovieRemoteDataSource,

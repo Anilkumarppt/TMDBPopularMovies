@@ -1,41 +1,43 @@
 package com.anil.tmdbpopularmovies.data.paging
 
 import android.util.Log
-import androidx.paging.*
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import com.anil.tmdbclientapp.data.model.movie.MovieList
-import com.anil.tmdbpopularmovies.data.local.dao.MovieDao
-import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
+import com.anil.tmdbpopularmovies.data.local.dao.TopMovieRemoteKeyDao
+import com.anil.tmdbpopularmovies.data.local.dao.TopRatedMovieDao
 import com.anil.tmdbpopularmovies.data.local.database.MoviesDatabase
-import com.anil.tmdbpopularmovies.data.local.dto.RemoteKey
-import com.anil.tmdbpopularmovies.data.local.dao.RemoteKeyDao
+import com.anil.tmdbpopularmovies.data.local.dto.TopRatedMovieDto
+import com.anil.tmdbpopularmovies.data.local.dto.TopRatedRemoteKey
 import com.anil.tmdbpopularmovies.data.remote.MovieRemoteDataSource
-import com.anil.tmdbpopularmovies.data.remote.model.Movie
-import com.anil.tmdbpopularmovies.util.AppConstants.STARTING_PAGE_INDEX
+import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMoviesList
+import com.anil.tmdbpopularmovies.util.AppConstants
 import retrofit2.HttpException
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class MovieRemoteMediator @Inject constructor(
+class TopRatedMovieRemoteMeditor @Inject constructor(
     private val movieRemoteDataSource: MovieRemoteDataSource,
-    private val movieLocalDataSource: MovieLocalDataSource,
     private val db: MoviesDatabase,
     private val initialPage: Int = 1
-) : RemoteMediator<Int, Movie>() {
+):RemoteMediator<Int,TopRatedMovieDto>() {
 
     private val TAG: String = "MyTag"
-    private val movieDao: MovieDao = db.getMovieDao()
-    private val remoteKeyDao: RemoteKeyDao = db.getRemoteKeysDao()
+    private val movieDao: TopRatedMovieDao = db.getTopRatedMovieDao()
+    private val remoteKeyDao: TopMovieRemoteKeyDao = db.getTopRatedRemoteKeys()
     private var currentPage: Int? = null
 
-
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, Movie>): MediatorResult {
-        return prepareLoad(loadType = loadType, state)
+    override suspend fun load(
+        loadType: LoadType,
+        state: PagingState<Int, TopRatedMovieDto>
+    ): MediatorResult {
+        return prepareLoad(loadType = loadType, state = state)
     }
-
     private suspend fun prepareLoad(
         loadType: LoadType,
-        state: PagingState<Int, Movie>
+        state: PagingState<Int, TopRatedMovieDto>
     ): MediatorResult {
         return try {
             /*Preparing the Requesting Page number*/
@@ -64,29 +66,29 @@ class MovieRemoteMediator @Inject constructor(
                 }
             }
 
-            val response = movieRemoteDataSource.getPagedPopularMovies(pageRequestNum)
+            val response = movieRemoteDataSource.getTopRatedMoviesList(pageRequestNum)
             currentPage = response.body()!!.page
-            val moviesList: List<Movie> = convertMovieList(response.body()!!)
+            val moviesList: List<TopRatedMovieDto> = convertMovieList(response.body()!!)
             val endOfPagination = moviesList.isEmpty()
             db.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    remoteKeyDao.deleteAllKeys()
+                    remoteKeyDao.deleteAllTopMovieKeys()
                     movieDao.deleteAllMovies()
                 }
 
                 val prevKey =
-                    if (pageRequestNum == STARTING_PAGE_INDEX) null else pageRequestNum - 1
+                    if (pageRequestNum == AppConstants.STARTING_PAGE_INDEX) null else pageRequestNum - 1
                 val nextKey = if (endOfPagination) null else pageRequestNum.plus(1)
                 val keys = moviesList.map { movie ->
                     //Log.d("MyTag", "load:  RemoteKeys $prevKey   $nextKey  ${movie.page}")
-                    RemoteKey(movieId = movie.page, prevKey = prevKey, nextKey = nextKey)
+                    TopRatedRemoteKey(movieId = movie.page, prevKey = prevKey, nextKey = nextKey)
                 }
-                remoteKeyDao.insertAll(keys)
+                remoteKeyDao.insertAllTopMovieRemoteKeys(keys)
                 moviesList.map { movie ->
                     movie.posterPath = "https://image.tmdb.org/t/p/w500" + movie.posterPath
-                    movie.backdrop = "https://image.tmdb.org/t/p/w500" + movie.backdrop
+                    movie.backdropPath = "https://image.tmdb.org/t/p/w500" + movie.backdropPath
                 }
-                movieDao.savePopularMovies(moviesList)
+                movieDao.saveTopRatedMovies(moviesList)
             }
             MediatorResult.Success(endOfPaginationReached = endOfPagination)
         } catch (ex: Exception) {
@@ -99,34 +101,25 @@ class MovieRemoteMediator @Inject constructor(
 
     }
 
-    private fun convertMovieList(movieListRes: MovieList): List<Movie> {
+    private fun convertMovieList(movieListRes: TopRatedMoviesList): List<TopRatedMovieDto> {
         if (movieListRes.results.isNotEmpty()) {
-            val movies: List<Movie> = movieListRes.results.map {
-                it.toDomain(movieListRes.page)
+            val movies: List<TopRatedMovieDto> = movieListRes.results.map {
+               it.toDomain(movieListRes.page)
             }.sortedBy { it.page }
             return movies
         }
         return emptyList()
     }
-
-    private suspend fun printRemoteKeys(remoteKey: RemoteKey?) {
-        if (remoteKey?.nextKey != null)
-            Log.d(TAG, "sample3: Refresh ${remoteKey.nextKey}")
-        else
-            Log.d(TAG, "sample3: Refresh ${remoteKey?.toString()}")
-
-    }
-
-    private suspend fun getFirstRemoteKey(state: PagingState<Int, Movie>): RemoteKey? {
+    private suspend fun getFirstRemoteKey(state: PagingState<Int, TopRatedMovieDto>): TopRatedRemoteKey? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }
             ?.data?.firstOrNull()
-            ?.let { movie -> db.getRemoteKeysDao().remoteKeyByMovieId(movie.page) }
+            ?.let { movie -> db.getTopRatedRemoteKeys().remoteKeyByTopMovieId(movie.page) }
     }
 
-    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, Movie>): RemoteKey? {
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, TopRatedMovieDto>): TopRatedRemoteKey? {
         return state.anchorPosition?.let { position ->
             state.closestItemToPosition(position)?.id?.let { id ->
-                db.getRemoteKeysDao().remoteKeyByMovieId(id)
+                db.getTopRatedRemoteKeys().remoteKeyByTopMovieId(id)
             }
         }
     }
@@ -135,10 +128,10 @@ class MovieRemoteMediator @Inject constructor(
      * Get the page of the last Movie item loaded from the database
      * Returns null if no data passed to Mediator
      */
-    private suspend fun getLastRemoteKey(state: PagingState<Int, Movie>): RemoteKey? {
+    private suspend fun getLastRemoteKey(state: PagingState<Int, TopRatedMovieDto>): TopRatedRemoteKey? {
         return state.pages.lastOrNull { it.data.isNotEmpty() }
             ?.data?.lastOrNull()
-            ?.let { movie -> db.getRemoteKeysDao().remoteKeyByMovieId(movieId = movie.page) }
+            ?.let { movie -> db.getTopRatedRemoteKeys().remoteKeyByTopMovieId(movieId = movie.page) }
     }
 
 }

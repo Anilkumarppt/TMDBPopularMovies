@@ -3,7 +3,9 @@ package com.anil.tmdbpopularmovies.domain.di
 import com.anil.tmdbpopularmovies.data.local.dao.MovieDao
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSource
 import com.anil.tmdbpopularmovies.data.local.MovieLocalDataSourceImpl
+import com.anil.tmdbpopularmovies.data.local.dao.TopRatedMovieDao
 import com.anil.tmdbpopularmovies.data.local.database.MoviesDatabase
+import com.anil.tmdbpopularmovies.data.paging.TopRatedMovieRemoteMeditor
 import com.anil.tmdbpopularmovies.data.remote.apiservice.MoviesAPIService
 import com.anil.tmdbpopularmovies.data.remote.AuthenticationInterceptors
 import com.anil.tmdbpopularmovies.data.remote.MovieRemoteDataSource
@@ -11,6 +13,7 @@ import com.anil.tmdbpopularmovies.data.remote.MovieRemoteDataSourceImpl
 import com.anil.tmdbpopularmovies.data.repository.MoviesRepositoryImpl
 import com.anil.tmdbpopularmovies.domain.repository.MoviesRepository
 import com.anil.tmdbpopularmovies.domain.usecases.GetMoviesUseCase
+import com.anil.tmdbpopularmovies.domain.usecases.GetTopRatedMovieUseCase
 import com.anil.tmdbpopularmovies.domain.usecases.MovieDetailUseCase
 import com.anil.tmdbpopularmovies.util.AppConstants.BASE_URL
 import com.anil.tmdbpopularmovies.util.AppConstants.CONNECT_TIMEOUT
@@ -70,12 +73,13 @@ object NetworkModule {
     fun provideMovieRemoteDataSource(moviesAPIService: MoviesAPIService): MovieRemoteDataSource =
         MovieRemoteDataSourceImpl(moviesAPIService = moviesAPIService)
 
-    @Provides
-    @Singleton
-    fun provideMovieLocalDataSource(movieDao: MovieDao):MovieLocalDataSource=MovieLocalDataSourceImpl(movieDao)
-   /* @Provides
-    @Singleton
-    fun provideLocalDataSource(movieDao:MovieDao):MovieLocalDataSource=MovieLocalDataSourceImpl(movieDao = movieDao)*/
+
+
+
+
+    /* @Provides
+     @Singleton
+     fun provideLocalDataSource(movieDao:MovieDao):MovieLocalDataSource=MovieLocalDataSourceImpl(movieDao = movieDao)*/
 
     @Provides
     @Singleton
@@ -89,11 +93,7 @@ object NetworkModule {
         db = movieDataBase
     )
 
-    @Provides
-    @Singleton
-    fun provideGetMoviesUseCase(moviesRepository: MoviesRepository):GetMoviesUseCase=GetMoviesUseCase(moviesRepository = moviesRepository)
 
-    @Provides
-    @Singleton
-    fun provideGetMoviesDetailUseCase(moviesRepository: MoviesRepository):MovieDetailUseCase=MovieDetailUseCase(moviesRepository = moviesRepository)
+
+
 }
