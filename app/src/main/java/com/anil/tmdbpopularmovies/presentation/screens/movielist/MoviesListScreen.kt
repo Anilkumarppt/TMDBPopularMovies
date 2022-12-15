@@ -101,6 +101,10 @@ fun MoviesListScreenContent(
 ) {
     val movieItems = moviesViewModel.movieList.collectAsLazyPagingItems()
     val topRatedMovies=moviesViewModel.topRatedMoviesList.collectAsLazyPagingItems()
+    val searchMovieList=moviesViewModel.searchMovieList.collectAsLazyPagingItems().itemSnapshotList
+    searchMovieList.let {
+        Log.d(TAG, "MoviesListScreenContent: Search Movie List${searchMovieList.items.size}")
+    }
     //val savedListState = rememberLazyListState(scrollingListPosition)
     Column(
         modifier = modifier

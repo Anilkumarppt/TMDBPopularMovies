@@ -4,6 +4,7 @@ import com.anil.tmdbclientapp.data.model.movie.MovieList
 import com.anil.tmdbpopularmovies.data.local.dto.MovieDto
 import com.anil.tmdbpopularmovies.data.remote.model.Cast
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
+import com.anil.tmdbpopularmovies.data.remote.model.SearchMovie
 import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMoviesList
 import com.anil.tmdbpopularmovies.util.AppConstants
 import retrofit2.Response
@@ -26,5 +27,8 @@ interface MoviesAPIService {
 
     @GET(AppConstants.TOP_RATED)
     suspend fun getTopRatedMovies(@Query("page") page:Int):Response<TopRatedMoviesList>
+
+    @GET(AppConstants.SEARCH_MOVIE)
+    suspend fun searchMovieByTitle(@Query("query") query:String):Response<SearchMovie>
 
 }

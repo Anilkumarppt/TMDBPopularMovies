@@ -4,6 +4,7 @@ import android.util.Log
 import com.anil.tmdbclientapp.data.model.movie.MovieList
 import com.anil.tmdbpopularmovies.data.remote.apiservice.MoviesAPIService
 import com.anil.tmdbpopularmovies.data.remote.model.Movie
+import com.anil.tmdbpopularmovies.data.remote.model.SearchMovie
 import com.anil.tmdbpopularmovies.data.remote.model.TopRatedMoviesList
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
@@ -36,6 +37,10 @@ class MovieRemoteDataSourceImpl @Inject constructor(private val moviesAPIService
 
     override suspend fun getTopRatedMoviesList(page: Int): Response<TopRatedMoviesList> {
         return moviesAPIService.getTopRatedMovies(page = page)
+    }
+
+    override suspend fun getSearchMovieByTitle(title: String): Response<SearchMovie> {
+        return moviesAPIService.searchMovieByTitle(title)
     }
 
 }

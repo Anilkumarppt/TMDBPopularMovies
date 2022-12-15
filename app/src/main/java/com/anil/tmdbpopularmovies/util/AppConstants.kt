@@ -18,6 +18,8 @@ object AppConstants {
 
     const val TOP_RATED="movie/top_rated"
 
+    const val SEARCH_MOVIE="search/movie"
+
     // related to paging
     const val STARTING_PAGE_INDEX = 1
     const val ENDING_PAGE_INDEX = 50
