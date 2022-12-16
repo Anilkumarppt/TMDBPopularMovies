@@ -14,8 +14,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideBaseMovieUse(moviesRepository: MoviesRepository):BaseUseCase= BaseUseCase(repository = moviesRepository)
-    @Provides
+    fun provideBaseMovieUse(moviesRepository: MoviesRepository):BaseUseCase= BaseUseCase(
+        getMoviesUseCase = GetMoviesUseCase(moviesRepository = moviesRepository),
+        getTopRatedMovieUseCase = GetTopRatedMovieUseCase(moviesRepository = moviesRepository),
+        getSearchMovieUse = GetSearchMovieUse(moviesRepository = moviesRepository),
+        getMovieDetailUseCase = MovieDetailUseCase(moviesRepository = moviesRepository)
+    )
+    /*@Provides
     @Singleton
     fun provideGetMoviesUseCase(moviesRepository: MoviesRepository): GetMoviesUseCase =
         GetMoviesUseCase(moviesRepository = moviesRepository)
@@ -33,5 +38,5 @@ object UseCaseModule {
     @Provides
     @Singleton
     fun provideGetSearchTextUseCase(moviesRepository: MoviesRepository):GetSearchMovieUse=
-        GetSearchMovieUse(moviesRepository = moviesRepository)
+        GetSearchMovieUse(moviesRepository = moviesRepository)*/
 }

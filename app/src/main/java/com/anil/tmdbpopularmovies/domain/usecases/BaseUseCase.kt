@@ -3,13 +3,13 @@ package com.anil.tmdbpopularmovies.domain.usecases
 import com.anil.tmdbpopularmovies.domain.repository.MoviesRepository
 import javax.inject.Inject
 
-open class BaseUseCase @Inject constructor(val repository: MoviesRepository) {
-    var getMoviesUseCase:GetMoviesUseCase?=null
-    var getTopRatedMovieUseCase:GetTopRatedMovieUseCase?=null
-    var getSearchMovieUse:GetSearchMovieUse?=null
-    init {
+data class BaseUseCase (var getMoviesUseCase:GetMoviesUseCase,
+                        var getTopRatedMovieUseCase:GetTopRatedMovieUseCase,
+                        var getSearchMovieUse:GetSearchMovieUse,
+                        var getMovieDetailUseCase: MovieDetailUseCase) {
+    /*init {
         getMoviesUseCase=GetMoviesUseCase(repository)
          getTopRatedMovieUseCase= GetTopRatedMovieUseCase(repository)
-        getSearchMovieUse=GetSearchMovieUse(repository)
-    }
+        getSearchMovieUse= GetSearchMovieUse(repository)
+    }*/
 }
